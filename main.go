@@ -254,10 +254,16 @@ func main() {
 
         var client *http.Client
         if proxy != "" {
+            proxyURL, err := url.Parse(proxy)
+            if err != nil {
+                // Handle the error, e.g., log it or return an error
+                fmt.Println("Error parsing proxy URL:", err)
+                return
+            }
             // Making the HTTP request to the DeepL API
             client = &http.Client{
                 Transport: &http.Transport{
-                    Proxy: http.ProxyURL(proxy),
+                    Proxy: http.ProxyURL(proxyURL),
                 },
             }
         } else {
