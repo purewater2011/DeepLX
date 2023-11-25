@@ -254,6 +254,7 @@ func main() {
 		request.Header.Set("Connection", "keep-alive")
 
         var client *http.Client
+        proxy := "http://127.0.0.1:24000"
         if proxy != "" {
             proxyURL, err := url.Parse(proxy)
             if err != nil {
