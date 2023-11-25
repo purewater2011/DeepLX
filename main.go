@@ -251,7 +251,7 @@ func main() {
 
         var client *http.Client
         if proxy != "" {
-            proxyURL, err := url.Parse(proxyAddress)
+            proxyURL, err := url.Parse(proxy)
             if err != nil {
                 c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse proxy URL"})
                 return
