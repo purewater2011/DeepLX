@@ -20,6 +20,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -248,8 +249,12 @@ func main() {
 		request.Header.Set("x-app-version", "2.9.1")
 		request.Header.Set("Connection", "keep-alive")
 
-        if proxy != nil {
-            proxyURL := proxy
+        if proxy != "" {
+            proxyURL, err := url.Parse(proxyAddress)
+            if err != nil {
+                c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse proxy URL"})
+                return
+            }
             // Making the HTTP request to the DeepL API
             client := &http.Client{
                 Transport: &http.Transport{
