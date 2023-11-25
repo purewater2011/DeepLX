@@ -248,7 +248,7 @@ func main() {
 		request.Header.Set("x-app-version", "2.9.1")
 		request.Header.Set("Connection", "keep-alive")
 
-        if project != nil {
+        if proxy != nil {
             proxyURL := proxy
             // Making the HTTP request to the DeepL API
             client := &http.Client{
