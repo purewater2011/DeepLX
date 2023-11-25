@@ -256,7 +256,7 @@ func main() {
         proxy := "http://127.0.0.1:24000"
         if proxy != "" {
             fmt.Println("proxy URL:", proxy)
-            proxyURL, err := http.ProxyURL(proxy)
+            proxyURL, err := url.Parse(proxy)
             if err != nil {
                 // Handle the error, e.g., log it or return an error
                 fmt.Println("Error parsing proxy URL:", err)
