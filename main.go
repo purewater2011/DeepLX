@@ -252,7 +252,7 @@ func main() {
 		request.Header.Set("x-app-version", "2.9.1")
 		request.Header.Set("Connection", "keep-alive")
 
-        client = &http.Client{}
+        client := &http.Client{}
 
         if proxy != "" {
             client.SetProxy(proxy)
