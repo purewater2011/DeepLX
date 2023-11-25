@@ -20,7 +20,6 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -45,7 +44,7 @@ func init() {
 	flag.IntVar(&port, "port", defaultPort, usage)
 	flag.IntVar(&port, "p", defaultPort, usage)
 	flag.StringVar(&token, "token", "", "set the access token for /translate endpoint")
-    flag.StringVar(&proxy, "proxy", "", "set proxy")
+    flag.StringVar(&proxy, "proxy", "", "Proxy server address (e.g.,http://your-proxy-server:proxy-port)")
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
@@ -147,6 +146,10 @@ func main() {
 		fmt.Println("Access token is not set. You can set it using the -token flag or the TOKEN environment variable.")
 	} else {
 		fmt.Println("Access token is set. Use the Authorization: Bearer <token> header to access /translate.")
+	}
+
+	if proxy == "" {
+	    fmt.Println("not set proxy, will local network.")
 	}
 
 	// Generating a random ID
@@ -251,15 +254,10 @@ func main() {
 
         var client *http.Client
         if proxy != "" {
-            proxyURL, err := url.Parse(proxy)
-            if err != nil {
-                c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse proxy URL"})
-                return
-            }
             // Making the HTTP request to the DeepL API
             client = &http.Client{
                 Transport: &http.Transport{
-                    Proxy: http.ProxyURL(proxyURL),
+                    Proxy: http.ProxyURL(proxy),
                 },
             }
         } else {
