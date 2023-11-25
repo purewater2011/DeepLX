@@ -33,6 +33,7 @@ import (
 
 var port int
 var token string
+var proxy string
 
 func init() {
 	const (
@@ -43,6 +44,7 @@ func init() {
 	flag.IntVar(&port, "port", defaultPort, usage)
 	flag.IntVar(&port, "p", defaultPort, usage)
 	flag.StringVar(&token, "token", "", "set the access token for /translate endpoint")
+    flag.StringVar(&proxy, "proxy", "", "set proxy")
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
@@ -246,8 +248,13 @@ func main() {
 		request.Header.Set("x-app-version", "2.9.1")
 		request.Header.Set("Connection", "keep-alive")
 
+        proxyURL = proxy
 		// Making the HTTP request to the DeepL API
-		client := &http.Client{}
+		client := &http.Client{
+            Transport: &http.Transport{
+                Proxy: http.ProxyURL(proxyURL),
+            },
+		}
 		resp, err := client.Do(request)
 		if err != nil {
 			log.Println(err)
