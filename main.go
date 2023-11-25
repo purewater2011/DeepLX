@@ -20,7 +20,6 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -257,7 +256,7 @@ func main() {
         proxy := "http://127.0.0.1:24000"
         if proxy != "" {
             fmt.Println("proxy URL:", proxy)
-            proxyURL, err := url.Parse(proxy)
+            proxyURL, err := http.ProxyURL(proxy)
             if err != nil {
                 // Handle the error, e.g., log it or return an error
                 fmt.Println("Error parsing proxy URL:", err)
