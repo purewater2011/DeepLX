@@ -248,13 +248,18 @@ func main() {
 		request.Header.Set("x-app-version", "2.9.1")
 		request.Header.Set("Connection", "keep-alive")
 
-        proxyURL = proxy
-		// Making the HTTP request to the DeepL API
-		client := &http.Client{
-            Transport: &http.Transport{
-                Proxy: http.ProxyURL(proxyURL),
-            },
-		}
+        if project != nil {
+            proxyURL := proxy
+            // Making the HTTP request to the DeepL API
+            client := &http.Client{
+                Transport: &http.Transport{
+                    Proxy: http.ProxyURL(proxyURL),
+                },
+            }
+        } else {
+            client := &http.Client{}
+        }
+
 		resp, err := client.Do(request)
 		if err != nil {
 			log.Println(err)
